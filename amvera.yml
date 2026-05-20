@@ -1,0 +1,11 @@
+meta:
+  version: 1.0
+  name: messenger
+  type: python
+
+build:
+  requirements: requirements.txt
+
+run:
+  command: python app.py
+  port: 5000
