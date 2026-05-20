@@ -8,7 +8,6 @@ import os
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'secret-key')
 
-# Подключение к PostgreSQL (или SQLite для локальной разработки)
 database_url = os.environ.get('DATABASE_URL')
 if database_url and database_url.startswith('postgres://'):
     database_url = database_url.replace('postgres://', 'postgresql://', 1)
@@ -18,7 +17,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-# ========== МОДЕЛИ БАЗЫ ДАННЫХ ==========
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -35,7 +33,6 @@ class Message(db.Model):
     file = db.Column(db.String(200))
     timestamp = db.Column(db.String(50), nullable=False)
 
-# ========== ФУНКЦИИ ==========
 def get_user_by_username(username):
     return User.query.filter_by(username=username).first()
 
@@ -73,7 +70,6 @@ def get_users_except(username):
     users = User.query.filter(User.username != username).all()
     return [u.username for u in users]
 
-# ========== РОУТЫ ==========
 @app.route('/')
 def index():
     if 'username' in session:
@@ -124,7 +120,6 @@ def api_messages(to_user):
     messages = get_messages(session['username'], to_user)
     return jsonify([{'from': m[0], 'message': m[1], 'file': m[2], 'time': m[3]} for m in messages])
 
-# ========== WEBSOCKET ==========
 @socketio.on('join')
 def handle_join(data):
     username = session.get('username')
@@ -142,7 +137,6 @@ def handle_send_message(data):
         emit('receive_message', {'from': from_user, 'message': message, 'time': now}, room=to_user)
         emit('receive_message', {'from': from_user, 'message': message, 'time': now}, room=from_user)
 
-# ========== ЗАПУСК ==========
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
