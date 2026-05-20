@@ -1,0 +1,13 @@
+app = "мессенджер"
+
+[build]
+
+[env]
+  SECRET_KEY = "s3cr3t-k3y-ch4nge-m3"
+
+[http_service]
+  internal_port = 5000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 0

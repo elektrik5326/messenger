@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <style>
+        body { font-family: Arial; display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; }
+        .form { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 350px; text-align: center; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #5a67d8; }
+        a { color: #667eea; text-decoration: none; }
+        .error { background: #fee; border: 1px solid #fcc; border-radius: 5px; padding: 10px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .error img { width: 24px; height: 24px; }
+        .error p { margin: 0; color: #c00; flex: 1; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="form">
+        <h2>📝 Регистрация</h2>
+        {% if error %}
+        <div class="error">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="error">
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+        <form method="POST">
+            <input type="text" name="username" placeholder="👤 Имя пользователя" required>
+            <input type="password" name="password" placeholder="🔒 Пароль" required>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+        <p style="margin-top: 15px;">Уже есть аккаунт? <a href="/login">Войти</a></p>
+    </div>
+</body>
+</html>
